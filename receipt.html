@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AHKapp POS</title>
+<style>
+body{font-family:"Pyidaungsu","Noto Sans Myanmar",Arial,sans-serif;margin:0;padding:0;}
+.bill{width:80mm;padding:10px;}
+.center{text-align:center;}
+.shop-name{font-size:20px;font-weight:bold;}
+.app-name{font-size:12px;}
+.meta{font-size:12px;display:flex;justify-content:space-between;}
+.line{border-top:1px dashed #000;margin:8px 0;}
+.row{display:flex;justify-content:space-between;font-size:14px;margin:4px 0;}
+.total{font-size:16px;font-weight:bold;}
+input,button{width:100%;padding:7px;margin-top:6px;font-size:16px;box-sizing:border-box;}
+button{background:#000;color:#fff;border:none;border-radius:4px;}
+.print-hide{display:block;}
+@media print{.print-hide{display:none}}
+</style>
+</head>
+<body>
+<div class="bill" id="printArea">
+<input class="print-hide" type="text" id="shopInput" placeholder="ဆိုင်အမည်ထည့်ပါ" onkeyup="updateShop()">
+<div class="center shop-name" id="shopName">Kaung Kyite Cafe</div>
+<div class="center app-name">AHKapp POS System</div>
+<div class="line"></div>
+<div class="meta"><span id="date"></span><span id="time"></span></div>
+<div class="line"></div>
+<input class="print-hide" type="number" id="total" placeholder="စုစုပေါင်းငွေ ထည့်ပါ">
+<button class="print-hide" onclick="calculate()">တွက်မည်</button>
+<div class="line"></div>
+<div class="row"><span>စုစုပေါင်း</span><span id="showTotal">0</span></div>
+<div class="row"><span>အခွန် (5%)</span><span id="tax">0</span></div>
+<div class="line"></div>
+<div class="row total"><span>စုစုပေါင်းကျသင့်ငွေ</span><span id="allTotal">0</span></div>
+<div class="line"></div>
+<div class="center" style="font-size:12px;">အားပေးမှုအတွက် ကျေးဇူးတင်ပါသည် 🙏</div>
+</div>
+<button class="print-hide" onclick="printBill()">🖨️ Print</button>
+<script>
+function updateShop(){document.getElementById("shopName").innerText=document.getElementById("shopInput").value||"Kaung Kyite Cafe";}
+function calculate(){let total=Number(document.getElementById("total").value||0);let tax=total*0.05;let allTotal=total+tax;document.getElementById("showTotal").innerText=total.toLocaleString();document.getElementById("tax").innerText=tax.toFixed(0).toLocaleString();document.getElementById("allTotal").innerText=allTotal.toFixed(0).toLocaleString();}
+function printBill(){window.print();}
+function showDateTime(){let now=new Date();document.getElementById("date").innerText="Date : "+now.toLocaleDateString("my-MM");document.getElementById("time").innerText="Time : "+now.toLocaleTimeString("my-MM",{hour:"2-digit",minute:"2-digit"});}
+showDateTime();
+</script>
+</body>
+</html>
